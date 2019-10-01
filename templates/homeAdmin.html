@@ -1,0 +1,202 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>PMS - Admin Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <link href="{{url_for('static',filename='fontawesome/css/all.css')}}" rel="stylesheet">
+
+</head>
+
+<!-- <body class="" style="background-image: url('utycc.jpg'); background-repeat: no-repeat; background-position: center; background-size: cover; background-attachment: fixed; background-origin: padding-box"> -->
+
+<body class="" style="background-color: #f0f0f9">
+    <div class="container-fluid">
+        <div class="row justify-content-center p-0">
+            <div class="col-md-9 col-sm-12 p-1 justify-content-center">
+
+                <div class="d-flex flex-column py-2 bg-white rounded border border-muted">
+                    <div class="d-flex flex-row px-4 py-2 rounded justify-content-between align-items-center">
+                        <div class="font-weight-bold">Project Management</div>
+                        <div class="d-flex flex-column">
+                            <div class="dropdown show" style="cursor: pointer">
+                                <div class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <span class="px-2">{{request.cookies.get('loggedName')}} (Admin)</span>
+                                </div>
+                                <div class="dropdown-menu py-1" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="/logout"><i
+                                            class="fa fa-user-circle pr-2 text-secondary"></i>Sign out</a>
+                                </div>
+                            </div>
+                            <div class="text-muted">{{request.cookies.get('loggedEmail')}}</div>
+                        </div>
+                    </div>
+                    <div class="my-2 border border-muted border-top-0 border-left-0 border-right-0"></div>
+                    <div class="d-flex flex-row px-4 py-2 rounded justify-content-between align-items-center">
+                        <nav class="nav nav-pills nav-justified">
+                            <a class="nav-link py-1 {{'active' if request.path=='/homeAdmin' else ''}}"
+                                href="/homeAdmin">Admin List</a>
+                            <a class="nav-link py-1 {{'active' if request.path=='/homeAdminUsers' else ''}}"
+                                href="/homeAdminUsers">User List</a>
+                            <a class="nav-link py-1 {{'active' if request.path=='/homeAdminTitles' else ''}}"
+                                href="/homeAdminTitles">Title List</a>
+                        </nav>
+                    </div>
+                </div>
+
+<!-- Admin List =================================================================================================== -->
+                {% if adminList %}
+                <div class="d-flex flex-column py-2 rounded">
+                    <div class="d-flex flex-row py-4 px-2 justify-content-between align-items-center">
+                        <div class="text-secondary font-weight-bold h5">Admin List</div>
+                        <div class="">
+                            <a href="/addAdmin" class="btn btn-primary">Add Member</a>
+                        </div>
+                    </div>
+
+                    {% if addAdminShow|length>0 %}
+                    <form action="/addAdmin" method="POST">
+                        <div class="my-2 py-2 px-3 bg-white rounded border border-muted">
+                            <div class="p-2 text-danger"><small>{{ errorText }}</small></div>
+                            <div class="d-flex flex-row pb-2">
+                                <div class="d-flex flex-column p-2">
+                                    <label class="text-dark">Email</label>
+                                    <input type="email" name="email" placeholder="Enter email" class="form-control" value="{{email}}" required/>
+                                </div>
+                                <div class="d-flex flex-column p-2">
+                                    <label class="text-dark">Name</label>
+                                    <input type="text" name="name" placeholder="Enter name" class="form-control" value="{{name}}" required/>
+                                </div>
+                                <div class="d-flex flex-column p-2">
+                                    <label class="text-dark">Password</label>
+                                    <input type="password" name="password" placeholder="Enter password" class="form-control" required/>
+                                </div>
+                                <div class="d-flex flex-column p-2 justify-content-end">
+                                    <button type="submit" class="btn btn-primary">Add New Memeber</button>
+                                </div>
+                                <div class="d-flex flex-column p-2 justify-content-end">
+                                    <a href="/homeAdmin" class="btn btn-warning ">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    {% endif %}
+
+                    <div class="rounded bg-white border border-top-0 border-muted my-2">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col"><span class="px-3" style="color: #b0b0c7">Name</span></th>
+                                    <th scope="col"><span class="px-3" style="color: #b0b0c7">Email</span></th>
+                                    <th scope="col"><span class="px-3" style="color: #b0b0c7"></span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for admin in adminList %}
+                                <tr>
+                                    <td class="px-4">{{ admin.name }}</td>
+                                    <td class="px-4">{{ admin.email }}</td>
+                                    <td class="px-4 dropdown">
+                                        <div class="btn btn-sm btn-light" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="px-2"><i class="fa fa-ellipsis-h text-secondary" style=""></i></span>
+                                        </div>
+                                        <div class="dropdown-menu py-1">
+                                            <a class="dropdown-item" href="/homeAdminDelete/{{admin.email}}"><i class="fa fa-trash pr-2 text-danger"></i>Delete</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                {% elif userList %}
+
+                <!-- User List =================================================================================================== -->
+                <div class="d-flex flex-column py-2 rounded">
+                    <div class="d-flex flex-row py-4 px-2 justify-content-between align-items-center">
+                        <div class="text-secondary font-weight-bold h5">User List</div>
+                    </div>
+
+                    <div class="rounded bg-white border border-top-0 border-muted my-2">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col"><span class="px-3" style="color: #b0b0c7">Name</span></th>
+                                    <th scope="col"><span class="px-3" style="color: #b0b0c7">Email</span></th>
+                                    <th scope="col"><span class="px-3" style="color: #b0b0c7">Roll Number</span></th>
+                                    <th scope="col"><span class="px-3" style="color: #b0b0c7"></span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in userList %}
+                                <tr>
+                                    <td class="px-4">{{ user.name }}</td>
+                                    <td class="px-4">{{ user.email }}</td>
+                                    <td class="px-4">{{ user.rollNo }}</td>
+                                    <td class="px-4 dropdown">
+                                        <div class="btn btn-sm btn-light" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="px-2"><i class="fa fa-ellipsis-h text-secondary" style=""></i></span>
+                                        </div>
+                                        <div class="dropdown-menu py-1">
+                                            <a class="dropdown-item" href="/homeAdminUsersDelete/{{user.email}}"><i class="fa fa-trash pr-2 text-danger"></i>Delete</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                {% elif titleList %}
+
+                <!-- User List =================================================================================================== -->
+                <div class="d-flex flex-column py-2 rounded">
+                    <div class="d-flex flex-row py-4 px-2 justify-content-between align-items-center">
+                        <div class="text-secondary font-weight-bold h5">Thesis Title List</div>
+                    </div>
+
+                    <div class="rounded bg-white border border-top-0 border-muted my-2">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col"><span class="px-3" style="color: #b0b0c7">Title</span></th>
+                                    <th scope="col"><span class="px-3" style="color: #b0b0c7">Name</span></th>
+                                    <th scope="col"><span class="px-3" style="color: #b0b0c7">Email</span></th>
+                                    <th scope="col"><span class="px-3" style="color: #b0b0c7">Roll Number</span></th>
+                                    <th scope="col"><span class="px-3" style="color: #b0b0c7"></span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for title in titleList %}
+                                <tr>
+                                    <td class="px-4">{{ title.title }}</td>
+                                    <td class="px-4">{{ title.name }}</td>
+                                    <td class="px-4">{{ title.email }}</td>
+                                    <td class="px-4">{{ title.rollNo }}</td>
+                                    <td class="px-4"></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {% endif %}
+
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

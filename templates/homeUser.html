@@ -1,0 +1,293 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>PMS - User Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <link href="{{url_for('static',filename='fontawesome/css/all.css')}}" rel="stylesheet">
+
+    <script>
+        $(() => {
+            $("#titleInputField").keyup(() => {
+                $("#existingThesisView").empty()
+                $("#titleSubmitButton").removeAttr("disabled")
+                const text = $("#titleInputField").val()
+                
+                if(text.length>0) {
+                    $.ajax({
+                        url: "/searchThesis/"+text,
+                        success: data => {
+                            if(data.length>0) {
+                                $("#existingThesisView").empty()
+                                // $("#titleSubmitButton").prop("disabled", true)
+                                data.forEach( d => {
+                                    $("#existingThesisView").append("<div class='px-2 py-1 text-secondary border border-muted bg-white' style='border-radius: 2px'>"+d.title+"</div>")
+                                })
+                            }
+                        }
+                    })
+                }
+            })
+            
+        })
+    </script>
+
+</head>
+
+<!-- <body class="" style="background-image: url('utycc.jpg'); background-repeat: no-repeat; background-position: center; background-size: cover; background-attachment: fixed; background-origin: padding-box"> -->
+
+<body class="" style="background-color: #f0f0f9">
+    <div class="container-fluid">
+        <div class="row justify-content-center p-0">
+            <div class="col-md-9 col-sm-12 p-1 justify-content-center">
+
+                <div class="d-flex flex-column py-2 bg-white rounded border border-muted">
+                    <div class="d-flex flex-row px-4 py-2 rounded justify-content-between align-items-center">
+                        <div class="font-weight-bold">Project Management</div>
+                        <div class="d-flex flex-column">
+                            <div class="dropdown" style="cursor: pointer">
+                                <div class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <span class="px-2">{{request.cookies.get('loggedName')}}</span>
+                                </div>
+                                <div class="dropdown-menu py-1" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="/logout"><i class="fa fa-user-circle pr-2 text-secondary"></i>Sign out</a>
+                                </div>
+                            </div>
+                            <div class="text-muted">{{request.cookies.get('loggedEmail')}}</div>
+                        </div>
+                    </div>
+                    <div class="my-2 border border-muted border-top-0 border-left-0 border-right-0"></div>
+                    <div class="d-flex flex-row px-4 py-2 rounded justify-content-between align-items-center">
+                        <nav class="nav nav-pills nav-justified">
+                            <a class="nav-link py-1 {{'active' if request.path=='/homeUser' else ''}}"
+                                href="/homeUser">Title</a>
+                            <a class="nav-link py-1 {{'active' if request.path=='/userFirst' else ''}}"
+                                href="/userFirst">First Seminar</a>
+                            <a class="nav-link py-1 {{'active' if request.path=='/userSecond' else ''}}"
+                                href="/userSecond">Second Seminar</a>
+                            <a class="nav-link py-1 {{'active' if request.path=='/userThird' else ''}}"
+                                href="/userThird">Third Seminar</a>
+                            <a class="nav-link py-1 {{'active' if request.path=='/userClose' else ''}}"
+                                href="/userClose">Closing</a>
+                        </nav>
+                    </div>
+                </div>
+
+                {% if request.path=="/homeUser" and thesis is none %}
+
+                <!-- Title select =================================================================================================== -->
+                <div class="d-flex flex-column py-2 rounded col-md-8 col-sm-12 px-0">
+                    <div class="d-flex flex-row py-4 px-2 justify-content-between align-items-center">
+                        <div class="text-secondary font-weight-bold h5">Lets get start!</div>
+                    </div>
+
+                    <div class="rounded bg-white border border-top-0 border-muted my-2 p-3 px-4">
+                        <form action="/homeUser" method="POST">
+                            <div class="pt-3 pb-2">Dear mate, you need to check your thesis title have already done in recent years</div>
+                            <div class="pt-2">
+                                <div class="text-muted py-1">Enter your thesis title</div>
+                                <input type="text" id="titleInputField" class="form-control" name="title" value="{{ title }}" placeholder="Enter your title" required/>
+                                <div class="pb-2 pt-1" style="position: absolute; left: 24px; right: 24px" >
+                                    <div class="bg-white" id="existingThesisView"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="py-4 d-flex justify-content-end">
+                                <button type="submit" id="titleSubmitButton" class="btn btn-primary px-3">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            
+                {% elif request.path=="/homeUser" and thesis is not none %} 
+                <!-- Deadline -->
+                <div class="d-flex flex-column py-2 rounded  col-md-8 col-sm-12 px-0">
+                    <div class="d-flex flex-row py-4 px-2 justify-content-between align-items-center">
+                        <div class="text-secondary font-weight-bold h5">Lets get start!</div>
+                    </div>
+
+                    <div class="rounded bg-white border border-muted my-2 p-3 px-4">
+                        <form action="/selectTitle" method="POST">
+                            <div class="pt-3 pb-2">Title Defense</div>
+                            <div class="py-2">
+                                <div class="text-muted py-1">Title</div>
+                                <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title }}</div>
+                            </div>
+                            <div class="pb-2 d-flex flex-wrap">
+                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Prepare for title defense</div></div>
+                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Find Field background and Theory requirement</div></div>
+                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Flow-chart implementation</div></div>
+                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Feasible expected output</div></div>
+                            </div>
+                            <div class="py-2">
+                                <div class="text-muted py-1">Expected output</div>
+                                <div class="py-1">
+                                    <textarea rows="5" name="expectedOutput" class="form-control bg-white" placeholder="Enter expected output" >{{ step.expectedOutput  }}</textarea>
+                                </div>
+                            </div>
+                            <div class="py-2">
+                                <div class="text-muted py-1">Deadline</div>
+                                <input type="date" name="deadline" class="form-control" value="{{ step.deadline }}" />
+                                <!-- disabled="{{ 'false' if not deadline else 'true' }}" -->
+                                <!-- <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ deadline }}</div> -->
+                            </div>
+                            <div class="py-2">
+                                {% if not step %}
+                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                {% endif %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                {% elif request.path=="/userFirst" %} 
+
+                <!-- First =================================================================================================== -->
+                <div class="d-flex flex-column py-2 rounded  col-md-8 col-sm-12 px-0">
+                    <div class="d-flex flex-row py-4 px-2 justify-content-between align-items-center">
+                        <div class="text-secondary font-weight-bold h5">First Seminar</div>
+                    </div>
+
+                    <div class="rounded bg-white border border-muted my-2 p-3 px-4">
+                        <form action="/userFirst" method="POST">
+                            <div class="pt-3 pb-2">First Seminar</div>
+                            <div class="py-2">
+                                <div class="text-muted py-1">Title</div>
+                                <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title }}</div>
+                            </div>
+                            <div class="pb-2 d-flex flex-wrap">
+                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete Thesis book Chapter(2)</div></div>
+                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete database and 20% (design) of code</div></div>
+                            </div>
+                            <div class="py-2">
+                                <div class="text-muted py-1">Deadline</div>
+                                <input type="date" name="deadline" class="form-control" value="{{step.deadline}}" />
+                                <!-- disabled="{{ 'false' if not deadline else 'true' }}" -->
+                                <!-- <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ deadline }}</div> -->
+                            </div>
+                            <div class="py-2">
+                                {% if not step %}
+                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                {% endif %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                {% elif request.path=="/userSecond" %} 
+
+                <!-- Second =================================================================================================== -->
+                <div class="d-flex flex-column py-2 rounded  col-md-8 col-sm-12 px-0">
+                    <div class="d-flex flex-row py-4 px-2 justify-content-between align-items-center">
+                        <div class="text-secondary font-weight-bold h5">Second Seminar</div>
+                    </div>
+
+                    <div class="rounded bg-white border border-muted my-2 p-3 px-4">
+                        <form action="/userSecond" method="POST">
+                            <div class="pt-3 pb-2">Second Seminar</div>
+                            <div class="py-2">
+                                <div class="text-muted py-1">Title</div>
+                                <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title }}</div>
+                            </div>
+                            <div class="pb-2 d-flex flex-wrap">
+                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete Thesis book Chapter(1, 2)</div></div>
+                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete 60% of implementation and full design</div></div>
+                            </div>
+                            <div class="py-2">
+                                <div class="text-muted py-1">Deadline</div>
+                                <input type="date" name="deadline" class="form-control" value="{{step.deadline}}" />
+                                <!-- disabled="{{ 'false' if not deadline else 'true' }}" -->
+                                <!-- <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ deadline }}</div> -->
+                            </div>
+                            <div class="py-2">
+                                {% if not step %}
+                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                {% endif %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                {% elif request.path=="/userThird" %} 
+
+                <!-- Third =================================================================================================== -->
+                <div class="d-flex flex-column py-2 rounded  col-md-8 col-sm-12 px-0">
+                    <div class="d-flex flex-row py-4 px-2 justify-content-between align-items-center">
+                        <div class="text-secondary font-weight-bold h5">Third Seminar</div>
+                    </div>
+
+                    <div class="rounded bg-white border border-muted my-2 p-3 px-4">
+                        <form action="/userThird" method="POST">
+                            <div class="pt-3 pb-2">Third Seminar</div>
+                            <div class="py-2">
+                                <div class="text-muted py-1">Title</div>
+                                <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title }}</div>
+                            </div>
+                            <div class="pb-2 d-flex flex-wrap">
+                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete Thesis book Chapter(1, 2, 3, 4)</div></div>
+                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete overall implementation and test system</div></div>
+                            </div>
+                            <div class="py-2">
+                                <div class="text-muted py-1">Deadline</div>
+                                <input type="date" name="deadline" class="form-control" value="{{step.deadline}}" />
+                                <!-- disabled="{{ 'false' if not deadline else 'true' }}" -->
+                                <!-- <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ deadline }}</div> -->
+                            </div>
+                            <div class="py-2">
+                                {% if not step %}
+                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                {% endif %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                {% elif request.path=="/userClose" %} 
+
+                <!-- Close =================================================================================================== -->
+                <div class="d-flex flex-column py-2 rounded  col-md-8 col-sm-12 px-0">
+                    <div class="d-flex flex-row py-4 px-2 justify-content-between align-items-center">
+                        <div class="text-secondary font-weight-bold h5">Thesis Closing</div>
+                    </div>
+
+                    <div class="rounded bg-white border border-muted my-2 p-3 px-4">
+                        <form action="/userClose" method="POST">
+                            <div class="pt-3 pb-2">Thesis Closing</div>
+                            <div class="py-2">
+                                <div class="text-muted py-1">Title</div>
+                                <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title }}</div>
+                            </div>
+                            <div class="pb-2 d-flex flex-wrap">
+                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete Thesis book</div></div>
+                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete Soft copy of book and coding</div></div>
+                            </div>
+                            <div class="py-2">
+                                <div class="text-muted py-1">Deadline</div>
+                                <input type="date" name="deadline" class="form-control" value="{{step.deadline}}" />
+                                <!-- disabled="{{ 'false' if not deadline else 'true' }}" -->
+                                <!-- <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ deadline }}</div> -->
+                            </div>
+                            <div class="py-2">
+                                {% if not step %}
+                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                {% endif %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                {% endif %}
+
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
