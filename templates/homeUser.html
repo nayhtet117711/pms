@@ -116,7 +116,7 @@
                             <div class="pt-3 pb-2">Title Defense</div>
                             <div class="py-2">
                                 <div class="text-muted py-1">Title</div>
-                                <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title }}</div>
+                                <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title if thesis }}</div>
                             </div>
                             <div class="pb-2 d-flex flex-wrap">
                                 <div class="p-1"><div class="badge badge-pill badge-primary p-2">Prepare for title defense</div></div>
@@ -127,12 +127,12 @@
                             <div class="py-2">
                                 <div class="text-muted py-1">Expected output</div>
                                 <div class="py-1">
-                                    <textarea rows="5" name="expectedOutput" class="form-control bg-white" placeholder="Enter expected output" >{{ step.expectedOutput  }}</textarea>
+                                    <textarea rows="5" name="expectedOutput" class="form-control bg-white" placeholder="Enter expected output" >{{ step.expectedOutput if step }}</textarea>
                                 </div>
                             </div>
                             <div class="py-2">
                                 <div class="text-muted py-1">Deadline</div>
-                                <input type="date" name="deadline" class="form-control" value="{{ step.deadline }}" />
+                                <input type="date" name="deadline" class="form-control" value="{{ step.deadline if step }}" />
                                 <!-- disabled="{{ 'false' if not deadline else 'true' }}" -->
                                 <!-- <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ deadline }}</div> -->
                             </div>
@@ -158,7 +158,7 @@
                             <div class="pt-3 pb-2">First Seminar</div>
                             <div class="py-2">
                                 <div class="text-muted py-1">Title</div>
-                                <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title }}</div>
+                                <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title if thesis else 'Not set yet' }}</div>
                             </div>
                             <div class="pb-2 d-flex flex-wrap">
                                 <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete Thesis book Chapter(2)</div></div>
@@ -166,7 +166,7 @@
                             </div>
                             <div class="py-2">
                                 <div class="text-muted py-1">Deadline</div>
-                                <input type="date" name="deadline" class="form-control" value="{{step.deadline}}" />
+                                <input type="date" name="deadline" class="form-control" value="{{ step.deadline  if step }}" />
                                 <!-- disabled="{{ 'false' if not deadline else 'true' }}" -->
                                 <!-- <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ deadline }}</div> -->
                             </div>
@@ -192,7 +192,7 @@
                             <div class="pt-3 pb-2">Second Seminar</div>
                             <div class="py-2">
                                 <div class="text-muted py-1">Title</div>
-                                <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title }}</div>
+                                <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title if thesis else 'Not set yet' }}</div>
                             </div>
                             <div class="pb-2 d-flex flex-wrap">
                                 <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete Thesis book Chapter(1, 2)</div></div>
@@ -200,7 +200,7 @@
                             </div>
                             <div class="py-2">
                                 <div class="text-muted py-1">Deadline</div>
-                                <input type="date" name="deadline" class="form-control" value="{{step.deadline}}" />
+                                <input type="date" name="deadline" class="form-control" value="{{ step.deadline  if step}}" />
                                 <!-- disabled="{{ 'false' if not deadline else 'true' }}" -->
                                 <!-- <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ deadline }}</div> -->
                             </div>
@@ -226,7 +226,7 @@
                             <div class="pt-3 pb-2">Third Seminar</div>
                             <div class="py-2">
                                 <div class="text-muted py-1">Title</div>
-                                <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title }}</div>
+                                <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title if thesis else 'Not set yet' }}</div>
                             </div>
                             <div class="pb-2 d-flex flex-wrap">
                                 <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete Thesis book Chapter(1, 2, 3, 4)</div></div>
@@ -234,7 +234,7 @@
                             </div>
                             <div class="py-2">
                                 <div class="text-muted py-1">Deadline</div>
-                                <input type="date" name="deadline" class="form-control" value="{{step.deadline}}" />
+                                <input type="date" name="deadline" class="form-control" value="{{ step.deadline if step }}" />
                                 <!-- disabled="{{ 'false' if not deadline else 'true' }}" -->
                                 <!-- <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ deadline }}</div> -->
                             </div>
@@ -260,7 +260,7 @@
                             <div class="pt-3 pb-2">Thesis Closing</div>
                             <div class="py-2">
                                 <div class="text-muted py-1">Title</div>
-                                <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title }}</div>
+                                <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title if thesis else 'Not set yet' }}</div>
                             </div>
                             <div class="pb-2 d-flex flex-wrap">
                                 <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete Thesis book</div></div>
@@ -268,7 +268,7 @@
                             </div>
                             <div class="py-2">
                                 <div class="text-muted py-1">Deadline</div>
-                                <input type="date" name="deadline" class="form-control" value="{{step.deadline}}" />
+                                <input type="date" name="deadline" class="form-control" value="{{step.deadline if step}}" />
                                 <!-- disabled="{{ 'false' if not deadline else 'true' }}" -->
                                 <!-- <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ deadline }}</div> -->
                             </div>
