@@ -1,11 +1,11 @@
 from flask import Flask, render_template, redirect, request, send_from_directory
 import os
-from route import index, loginAdmin, loginUser, signupUser, homeAdmin, homeUser, logout, addAdmin, homeAdminUsers, homeAdminTitles, userFirst, userSecond, userThird, userClose, selectTitle, searchThesis, homeAdminDelete, homeAdminUsersDelete
+from route import index, loginAdmin, loginUser, signupUser, homeAdmin, homeUser, logout, addAdmin, homeAdminUsers, homeAdminTitles, userFirst, userSecond, userThird, userClose, selectTitle, searchThesis, homeAdminDelete, homeAdminUsersDelete, homeAdminTitleView, approvedThesisByAdmin
 
 app = Flask(__name__, static_folder='static', static_url_path='')
 
 app.config.setdefault('MYSQL_HOST', 'localhost')
-app.config.setdefault('MYSQL_USER', "root")
+app.config.setdefault('MYSQL_USER', "user125")
 app.config.setdefault('MYSQL_PASSWORD', "root")
 app.config.setdefault('MYSQL_DB', "pmsdb")
 app.config.setdefault('MYSQL_PORT', 3306)
@@ -39,6 +39,8 @@ app.add_url_rule("/homeAdminUsersDelete/<email>", "homeAdminUsersDelete", homeAd
 
 app.add_url_rule("/homeAdminTitles", "homeAdminTitles", homeAdminTitles, methods=["GET", "POST"])
 
+app.add_url_rule("/homeAdminTitleView/<email>/<title>", "homeAdminTitleView", homeAdminTitleView, methods=["GET", "POST"])
+
 app.add_url_rule("/addAdmin", "addAdmin", addAdmin, methods=["GET", "POST"])
 
 app.add_url_rule("/userFirst", "userFirst", userFirst, methods=["GET", "POST"])
@@ -52,6 +54,8 @@ app.add_url_rule("/userClose", "userClose", userClose, methods=["GET", "POST"])
 app.add_url_rule("/selectTitle", "selectTitle", selectTitle, methods=["POST"])
 
 app.add_url_rule("/searchThesis/<inputTitle>", "searchThesis", searchThesis, methods=["GET"])
+
+app.add_url_rule("/approvedThesisByAdmin/<email>/<boolean>", "approvedThesisByAdmin", approvedThesisByAdmin, methods=["GET"])
 
 
 if __name__ == "__main__":

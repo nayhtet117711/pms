@@ -110,7 +110,7 @@ def fetchUserWithEmail(email):
 
 def fetchAllThesis():
     cursor = mysql.connection.cursor()
-    cursor.execute("select title, name, rollNo, year, done, email from thesis")
+    cursor.execute("select title, name, rollNo, year, done, email, pending from thesis")
     thesisListRaw = cursor.fetchall()
     mysql.connection.commit()
     cursor.close()
@@ -124,13 +124,14 @@ def fetchAllThesis():
         t.year = thesis[3]
         t.done = thesis[4]
         t.email = thesis[5]
+        t.pending = thesis[6]
         thesisList.append(t)
 
     return thesisList
 
 def fetchAllThesisNotDone():
     cursor = mysql.connection.cursor()
-    cursor.execute("select title, name, rollNo, year, done, email from thesis where done=0")
+    cursor.execute("select title, name, rollNo, year, done, email, pending from thesis where done=0")
     thesisListRaw = cursor.fetchall()
     mysql.connection.commit()
     cursor.close()
@@ -144,6 +145,7 @@ def fetchAllThesisNotDone():
         t.year = thesis[3]
         t.done = thesis[4]
         t.email = thesis[5]
+        t.pending = thesis[6]
         thesisList.append(t)
 
     return thesisList
@@ -157,7 +159,7 @@ def saveThesis(title, email, name, rollNo, year, done):
 
 def fetchThesisWithEmail(email):
     cursor = mysql.connection.cursor()
-    cursor.execute("select title, email, name, rollNo, year, done from thesis where email='%s'"%(email))
+    cursor.execute("select title, email, name, rollNo, year, done, pending from thesis where email='%s'"%(email))
     thesisRaw = cursor.fetchone()
     if thesisRaw is None:
         return None
@@ -168,21 +170,35 @@ def fetchThesisWithEmail(email):
     thesis.rollNo = thesisRaw[3]
     thesis.year = thesisRaw[4]
     thesis.done = thesisRaw[5]
+    thesis.pending = thesisRaw[6]
     # print("thesis: ", thesis)
     mysql.connection.commit()
     cursor.close()
     return thesis
 
-def saveStep(email, step, deadline, expectedOutput=""):
+def updateThesisPending(email, boolean):
     cursor = mysql.connection.cursor()
-    cursor.execute("insert into step(email,step, deadline, expectedOutput) values(%s, %s, %s, %s)", ( email, step, deadline, expectedOutput))
+    if int(boolean)==1 :
+        cursor.execute("delete from thesis where email='%s'"%(email))
+        cursor.execute("delete from step where email='%s'"%(email))
+    else : 
+        cursor.execute("update thesis set pending=0 where email='%s'"%(email))
+        
+
+    mysql.connection.commit()
+    cursor.close()
+    return
+
+def saveStep(email, step, deadline, tasks, expectedOutput=""):
+    cursor = mysql.connection.cursor()
+    cursor.execute("insert into step(email,step, deadline, expectedOutput, tasks) values(%s, %s, %s, %s, %s)", ( email, step, deadline, expectedOutput, tasks))
     mysql.connection.commit()
     cursor.close()
     return 
 
 def fetchStepByEmailStep(email, step):
     cursor = mysql.connection.cursor()
-    cursor.execute("select email,step, deadline, expectedOutput from step where email='%s' and step='%s'"%(email, step))
+    cursor.execute("select email,step, deadline, expectedOutput, tasks from step where email='%s' and step='%s'"%(email, step))
     stepRaw = cursor.fetchone()
     if stepRaw is None :
         return None
@@ -191,6 +207,7 @@ def fetchStepByEmailStep(email, step):
     step.step = stepRaw[1]
     step.deadline = stepRaw[2]
     step.expectedOutput = stepRaw[3]
+    step.tasks = stepRaw[4].split(",")
     mysql.connection.commit()
     cursor.close()
     return step

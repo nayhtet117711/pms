@@ -15,9 +15,11 @@ class Thesis :
     year = ""
     done = 0,
     email=""
+    pending=True
 
 class Step:
     email=""
     step=""
     deadline=""
     expectedOutput=""
+    tasks = []

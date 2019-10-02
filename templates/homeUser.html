@@ -118,21 +118,131 @@
                                 <div class="text-muted py-1">Title</div>
                                 <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title if thesis }}</div>
                             </div>
+                            
+                            {% if step %}
+                                <div class="pb-2 d-flex flex-wrap">
+                                {% for task in step.tasks %}
+	                                <div class="px-1">
+	                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+		                                    <div class="d-flex align-items-center">
+		                                        <label class="form-check-label">{{ task }}</label>
+		                                    </div>    
+	                                    </div>
+	                                </div>
+                                {% endfor %}
+                                </div>
+                            <!-- Task Selector -->
+                            {% else %}
                             <div class="pb-2 d-flex flex-wrap">
-                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Prepare for title defense</div></div>
-                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Find Field background and Theory requirement</div></div>
-                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Flow-chart implementation</div></div>
-                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Feasible expected output</div></div>
-                            </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task1" value="Prepare for title defense" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task1">Prepare for title defense</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task" value="Find Field background and Theory requirement" class="form-check-input my-0"  />
+                                            <label class="form-check-label" for="task" >Find Field background and Theory requirement</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task3" value="Flow-chart implementation" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task3">Flow-chart implementation</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task4" value="Feasible expected output" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task4">Feasible expected output</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task5" value="Complete Thesis book Chapter(2)" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task5">Complete Thesis book Chapter(2)</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task6" value="Complete database and 20% (design) of code" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task6">Complete database and 20% (design) of code</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task7" value="Complete Thesis book Chapter(1 and 2)" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task7">Complete Thesis book Chapter(1 and 2)</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task8" value="Complete 60% of implementation and full design" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task8">Complete 60% of implementation and full design</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task9" value="Complete Thesis book Chapter(1 to 4)" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task9">Complete Thesis book Chapter(1 to 4)</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task10" value="Complete overall implementation and test system" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task10">Complete overall implementation and test system</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task11" value="Complete Thesis book" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task11">Complete Thesis book</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task12" value="Complete Soft copy of book and coding" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task12">Complete Soft copy of book and coding</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                            </div>    
+                            {% endif %}
+
+
                             <div class="py-2">
                                 <div class="text-muted py-1">Expected output</div>
                                 <div class="py-1">
-                                    <textarea rows="5" name="expectedOutput" class="form-control bg-white" placeholder="Enter expected output" >{{ step.expectedOutput if step }}</textarea>
+                                    <textarea rows="5" name="expectedOutput" class="form-control bg-white" placeholder="Enter expected output" required>{{ step.expectedOutput if step }}</textarea>
                                 </div>
                             </div>
                             <div class="py-2">
                                 <div class="text-muted py-1">Deadline</div>
-                                <input type="date" name="deadline" class="form-control" value="{{ step.deadline if step }}" />
+                                <input type="date" name="deadline" class="form-control" value="{{ step.deadline if step }}" required />
                                 <!-- disabled="{{ 'false' if not deadline else 'true' }}" -->
                                 <!-- <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ deadline }}</div> -->
                             </div>
@@ -160,10 +270,121 @@
                                 <div class="text-muted py-1">Title</div>
                                 <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title if thesis else 'Not set yet' }}</div>
                             </div>
+                            
+                            {% if step %}
+                                <div class="pb-2 d-flex flex-wrap">
+                                {% for task in step.tasks %}
+	                                <div class="px-1">
+	                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+		                                    <div class="d-flex align-items-center">
+		                                        <label class="form-check-label">{{ task }}</label>
+		                                    </div>    
+	                                    </div>
+	                                </div>
+                                {% endfor %}
+                                </div>
+                            <!-- Task Selector -->
+                            {% else %}
                             <div class="pb-2 d-flex flex-wrap">
-                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete Thesis book Chapter(2)</div></div>
-                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete database and 20% (design) of code</div></div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" value="Prepare for title defense" class="form-check-input my-0" />
+                                            <label class="form-check-label">Prepare for title defense</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" value="Find Field background and Theory requirement" class="form-check-input my-0" />
+                                            <label class="form-check-label">Find Field background and Theory requirement</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task3" value="Flow-chart implementation" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task3">Flow-chart implementation</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task4" value="Feasible expected output" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task4">Feasible expected output</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task5" value="Complete Thesis book Chapter(2)" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task5">Complete Thesis book Chapter(2)</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task6" value="Complete database and 20% (design) of code" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task6">Complete database and 20% (design) of code</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task7" value="Complete Thesis book Chapter(1 and 2)" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task7">Complete Thesis book Chapter(1 and 2)</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task8" value="Complete 60% of implementation and full design" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task8">Complete 60% of implementation and full design</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task9" value="Complete Thesis book Chapter(1 to 4)" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task9">Complete Thesis book Chapter(1 to 4)</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task10" value="Complete overall implementation and test system" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task10">Complete overall implementation and test system</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task11" value="Complete Thesis book" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task11">Complete Thesis book</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task12" value="Complete Soft copy of book and coding" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task12">Complete Soft copy of book and coding</label>
+                                        </div>    
+                                    </div>
+                                </div>
                             </div>
+                            {% endif %}
+
                             <div class="py-2">
                                 <div class="text-muted py-1">Deadline</div>
                                 <input type="date" name="deadline" class="form-control" value="{{ step.deadline  if step }}" />
@@ -194,10 +415,121 @@
                                 <div class="text-muted py-1">Title</div>
                                 <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title if thesis else 'Not set yet' }}</div>
                             </div>
+                            
+                            {% if step %}
+                                <div class="pb-2 d-flex flex-wrap">
+                                {% for task in step.tasks %}
+	                                <div class="px-1">
+	                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+		                                    <div class="d-flex align-items-center">
+		                                        <label class="form-check-label">{{ task }}</label>
+		                                    </div>    
+	                                    </div>
+	                                </div>
+                                {% endfor %}
+                                </div>
+                            <!-- Task Selector -->
+                            {% else %}
                             <div class="pb-2 d-flex flex-wrap">
-                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete Thesis book Chapter(1, 2)</div></div>
-                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete 60% of implementation and full design</div></div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" value="Prepare for title defense" class="form-check-input my-0" />
+                                            <label class="form-check-label">Prepare for title defense</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" value="Find Field background and Theory requirement" class="form-check-input my-0" />
+                                            <label class="form-check-label">Find Field background and Theory requirement</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task3" value="Flow-chart implementation" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task3">Flow-chart implementation</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task4" value="Feasible expected output" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task4">Feasible expected output</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task5" value="Complete Thesis book Chapter(2)" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task5">Complete Thesis book Chapter(2)</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task6" value="Complete database and 20% (design) of code" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task6">Complete database and 20% (design) of code</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task7" value="Complete Thesis book Chapter(1 and 2)" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task7">Complete Thesis book Chapter(1 and 2)</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task8" value="Complete 60% of implementation and full design" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task8">Complete 60% of implementation and full design</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task9" value="Complete Thesis book Chapter(1 to 4)" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task9">Complete Thesis book Chapter(1 to 4)</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task10" value="Complete overall implementation and test system" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task10">Complete overall implementation and test system</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task11" value="Complete Thesis book" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task11">Complete Thesis book</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task12" value="Complete Soft copy of book and coding" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task12">Complete Soft copy of book and coding</label>
+                                        </div>    
+                                    </div>
+                                </div>
                             </div>
+                            {% endif %}
+
                             <div class="py-2">
                                 <div class="text-muted py-1">Deadline</div>
                                 <input type="date" name="deadline" class="form-control" value="{{ step.deadline  if step}}" />
@@ -228,13 +560,124 @@
                                 <div class="text-muted py-1">Title</div>
                                 <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title if thesis else 'Not set yet' }}</div>
                             </div>
+                           
+                            {% if step %}
+                                <div class="pb-2 d-flex flex-wrap">
+                                {% for task in step.tasks %}
+	                                <div class="px-1">
+	                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+		                                    <div class="d-flex align-items-center">
+		                                        <label class="form-check-label">{{ task }}</label>
+		                                    </div>    
+	                                    </div>
+	                                </div>
+                                {% endfor %}
+                                </div>
+                            <!-- Task Selector -->
+                            {% else %}
                             <div class="pb-2 d-flex flex-wrap">
-                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete Thesis book Chapter(1, 2, 3, 4)</div></div>
-                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete overall implementation and test system</div></div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" value="Prepare for title defense" class="form-check-input my-0" />
+                                            <label class="form-check-label">Prepare for title defense</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" value="Find Field background and Theory requirement" class="form-check-input my-0" />
+                                            <label class="form-check-label">Find Field background and Theory requirement</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task3" value="Flow-chart implementation" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task3">Flow-chart implementation</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task4" value="Feasible expected output" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task4">Feasible expected output</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task5" value="Complete Thesis book Chapter(2)" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task5">Complete Thesis book Chapter(2)</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task6" value="Complete database and 20% (design) of code" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task6">Complete database and 20% (design) of code</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task7" value="Complete Thesis book Chapter(1 and 2)" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task7">Complete Thesis book Chapter(1 and 2)</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task8" value="Complete 60% of implementation and full design" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task8">Complete 60% of implementation and full design</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task9" value="Complete Thesis book Chapter(1 to 4)" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task9">Complete Thesis book Chapter(1 to 4)</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task10" value="Complete overall implementation and test system" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task10">Complete overall implementation and test system</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task11" value="Complete Thesis book" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task11">Complete Thesis book</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task12" value="Complete Soft copy of book and coding" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task12">Complete Soft copy of book and coding</label>
+                                        </div>    
+                                    </div>
+                                </div>
                             </div>
+                            {% endif %}
+
                             <div class="py-2">
                                 <div class="text-muted py-1">Deadline</div>
-                                <input type="date" name="deadline" class="form-control" value="{{ step.deadline if step }}" />
+                                <input type="date" name="deadline" class="form-control" value="{{ step.deadline if step }}" required />
                                 <!-- disabled="{{ 'false' if not deadline else 'true' }}" -->
                                 <!-- <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ deadline }}</div> -->
                             </div>
@@ -262,10 +705,121 @@
                                 <div class="text-muted py-1">Title</div>
                                 <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ thesis.title if thesis else 'Not set yet' }}</div>
                             </div>
+                            
+                            {% if step %}
+                                <div class="pb-2 d-flex flex-wrap">
+                                {% for task in step.tasks %}
+	                                <div class="px-1">
+	                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+		                                    <div class="d-flex align-items-center">
+		                                        <label class="form-check-label">{{ task }}</label>
+		                                    </div>    
+	                                    </div>
+	                                </div>
+                                {% endfor %}
+                                </div>
+                            <!-- Task Selector -->
+                            {% else %}
                             <div class="pb-2 d-flex flex-wrap">
-                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete Thesis book</div></div>
-                                <div class="p-1"><div class="badge badge-pill badge-primary p-2">Complete Soft copy of book and coding</div></div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" value="Prepare for title defense" class="form-check-input my-0" />
+                                            <label class="form-check-label">Prepare for title defense</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" value="Find Field background and Theory requirement" class="form-check-input my-0" />
+                                            <label class="form-check-label">Find Field background and Theory requirement</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task3" value="Flow-chart implementation" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task3">Flow-chart implementation</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task4" value="Feasible expected output" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task4">Feasible expected output</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="px-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task5" value="Complete Thesis book Chapter(2)" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task5">Complete Thesis book Chapter(2)</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task6" value="Complete database and 20% (design) of code" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task6">Complete database and 20% (design) of code</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task7" value="Complete Thesis book Chapter(1 and 2)" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task7">Complete Thesis book Chapter(1 and 2)</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task8" value="Complete 60% of implementation and full design" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task8">Complete 60% of implementation and full design</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task9" value="Complete Thesis book Chapter(1 to 4)" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task9">Complete Thesis book Chapter(1 to 4)</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task10" value="Complete overall implementation and test system" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task10">Complete overall implementation and test system</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task11" value="Complete Thesis book" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task11">Complete Thesis book</label>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                    <div class="badge-primary py-1 px-2 align-items-center form-group my-1" style="border-radius: 1000px;">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" name="task" id="task12" value="Complete Soft copy of book and coding" class="form-check-input my-0" />
+                                            <label class="form-check-label" for="task12">Complete Soft copy of book and coding</label>
+                                        </div>    
+                                    </div>
+                                </div>
                             </div>
+                            {% endif %}
+
                             <div class="py-2">
                                 <div class="text-muted py-1">Deadline</div>
                                 <input type="date" name="deadline" class="form-control" value="{{step.deadline if step}}" />
