@@ -104,6 +104,12 @@
                     </div>
                 </div>
             
+                {% elif thesis is not none and stepNo==5 and thesis.pending==1 %} 
+
+                <div class="d-flex flex-column rounded col-md-8 col-sm-12 p-5">
+                    Your thesis has not approved yet!
+                </div>
+
                 {% elif request.path=="/homeUser" and thesis is not none %} 
                 <!-- Deadline -->
                 <div class="d-flex flex-column py-2 rounded  col-md-8 col-sm-12 px-0">

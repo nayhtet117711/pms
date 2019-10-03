@@ -212,6 +212,13 @@ def fetchStepByEmailStep(email, step):
     cursor.close()
     return step
 
+def fetchStepNoByEmailStep(email):
+    cursor = mysql.connection.cursor()
+    cursor.execute("select count(*) from step where email='%s'"%(email))
+    stepNo = cursor.fetchone()
+
+    return stepNo[0]
+
 def deleteAdmin(email):
     cursor = mysql.connection.cursor()
     cursor.execute("delete from admin where email='"+email+"'")

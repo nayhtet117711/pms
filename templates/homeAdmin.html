@@ -183,7 +183,12 @@
                                     <td class="px-4">{{ title.email }}</td>
                                     <td class="px-4">{{ title.rollNo }}</td>
                                     <td class="px-4">
-                                        <a class="btn btn-light" href="/homeAdminTitleView/{{title.email}}/{{title.title}}"><i class="fa fa-eye pr-2 text-primary"></i>View</a>
+                                        <div class="">
+                                            <a class="btn btn-light" href="/homeAdminTitleView/{{title.email}}/{{title.title}}"><i class="fa fa-eye pr-2 text-primary"></i>View</a>
+                                            {% if title.pending==0 %}
+                                                <div class="d-inline p-2 rounded text-center" style="cursor: default; font-size: 22px;"><i class="fa fa-check pr-2 text-success"></i></div>
+                                            {% endif %}
+                                        </div>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -201,6 +206,7 @@
                             <div class="text-primary font-weight-bold h5">{{thesis.title}}</div>
                             <div class="text-secondary h6">{{thesis.name}}, {{thesis.rollNo}}</div>
                         </div>
+                        {% if thesis.pending==1 %}
                         <div class="d-flex flex-row">
                             <div class="px-1">
                                 <a href="/approvedThesisByAdmin/{{thesis.email}}/1" class="btn btn-danger">Rejected</a>
@@ -209,6 +215,7 @@
                                 <a href="/approvedThesisByAdmin/{{thesis.email}}/0" class="btn btn-primary">Approved</a>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
                     <div class="rounded bg-white border border-muted px-4 my-2">   
                         <div class="py-2">

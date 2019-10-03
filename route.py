@@ -2,9 +2,9 @@ from flask import Flask, render_template, request, make_response, send_from_dire
 import os
 import random
 import datetime
-from db import test, fetchAdminWithEmailPassword, fetchAdminWithEmail, saveAdmin, fetchAllAdminExceptMe, fetchAllUser, fetchUserWithEmailPassword, fetchUserWithEmail, saveUser, fetchAllThesis, saveThesis, fetchThesisWithEmail, saveStep, fetchStepByEmailStep, fetchAllThesisNotDone, deleteAdmin, deleteUser, updateThesisPending
+from db import test, fetchAdminWithEmailPassword, fetchAdminWithEmail, saveAdmin, fetchAllAdminExceptMe, fetchAllUser, fetchUserWithEmailPassword, fetchUserWithEmail, saveUser, fetchAllThesis, saveThesis, fetchThesisWithEmail, saveStep, fetchStepByEmailStep, fetchAllThesisNotDone, deleteAdmin, deleteUser, updateThesisPending, fetchStepNoByEmailStep
 from models import Admin
-# from brute import bruteForce
+from brute import bruteForce
 
 STEP_TITLE = "TITLE"
 STEP_FIRST = "FIRST"
@@ -128,8 +128,9 @@ def homeUser() :
     if request.method == 'GET':
         thesis = fetchThesisWithEmail(loggedEmail)
         step = fetchStepByEmailStep(loggedEmail, STEP_TITLE)
-        # print("step: ", step.email, step.step, step.deadline, step.expectedOutput, step.tasks)
-        return render_template('homeUser.html', **request.args, thesis=thesis, step=step)
+        stepNo = fetchStepNoByEmailStep(loggedEmail)
+       
+        return render_template('homeUser.html', **request.args, thesis=thesis, step=step, stepNo=stepNo)
     else :
         selectedTitle = request.form["title"]
         userRaw = fetchUserWithEmail(loggedEmail)
@@ -166,7 +167,8 @@ def userFirst() :
         loggedEmail = request.cookies.get("loggedEmail")
         thesis = fetchThesisWithEmail(loggedEmail)
         step = fetchStepByEmailStep(loggedEmail, STEP_FIRST)
-        return render_template('homeUser.html', **request.args, step=step, thesis=thesis)
+        stepNo = fetchStepNoByEmailStep(loggedEmail)
+        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo)
     else :
         deadline = request.form["deadline"]
         taskRaw = request.form.getlist("task")
@@ -182,7 +184,8 @@ def userSecond() :
         loggedEmail = request.cookies.get("loggedEmail")
         thesis = fetchThesisWithEmail(loggedEmail)
         step = fetchStepByEmailStep(loggedEmail, STEP_SECOND)
-        return render_template('homeUser.html', **request.args, step=step, thesis=thesis)
+        stepNo = fetchStepNoByEmailStep(loggedEmail)
+        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo)
     else :
         deadline = request.form["deadline"]
         taskRaw = request.form.getlist("task")
@@ -198,7 +201,8 @@ def userThird() :
         loggedEmail = request.cookies.get("loggedEmail")
         thesis = fetchThesisWithEmail(loggedEmail)
         step = fetchStepByEmailStep(loggedEmail, STEP_THIRD)
-        return render_template('homeUser.html', **request.args, step=step, thesis=thesis)
+        stepNo = fetchStepNoByEmailStep(loggedEmail)
+        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo)
     else :
         deadline = request.form["deadline"]
         taskRaw = request.form.getlist("task")
@@ -214,7 +218,8 @@ def userClose() :
         loggedEmail = request.cookies.get("loggedEmail")
         thesis = fetchThesisWithEmail(loggedEmail)
         step = fetchStepByEmailStep(loggedEmail, STEP_CLOSE)
-        return render_template('homeUser.html', **request.args, step=step, thesis=thesis)
+        stepNo = fetchStepNoByEmailStep(loggedEmail)
+        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo)
     else :
         deadline = request.form["deadline"]
         taskRaw = request.form.getlist("task")
@@ -225,6 +230,25 @@ def userClose() :
             saveStep(loggedEmail, STEP_CLOSE, deadline, tasks, "")
             return redirect("/userClose")
 
+# def searchThesis(inputTitle):
+#     loggedEmail = request.cookies.get("loggedEmail")
+#     thesisList = fetchAllThesis()
+
+#     thesisSearchResult = []
+#     for t in thesisList:
+#         if len(thesisSearchResult) >=5:
+#             break
+#         elif inputTitle.lower().strip() in t.title.lower().strip():
+#             thesis = {
+#                 "title": t.title,
+#                 "name": t.name,
+#                 "rollNo": t.rollNo,
+#                 "year": t.year
+#             }
+#             thesisSearchResult.append(thesis)
+    
+#     return jsonify(thesisSearchResult)
+
 def searchThesis(inputTitle):
     loggedEmail = request.cookies.get("loggedEmail")
     thesisList = fetchAllThesis()
@@ -233,7 +257,7 @@ def searchThesis(inputTitle):
     for t in thesisList:
         if len(thesisSearchResult) >=5:
             break
-        elif inputTitle.lower().strip() in t.title.lower().strip():
+        elif bruteForce(str(inputTitle), str(t.title)):
             thesis = {
                 "title": t.title,
                 "name": t.name,
@@ -243,6 +267,7 @@ def searchThesis(inputTitle):
             thesisSearchResult.append(thesis)
     
     return jsonify(thesisSearchResult)
+
 
 def approvedThesisByAdmin(email, boolean) :
     updateThesisPending(email, boolean)
