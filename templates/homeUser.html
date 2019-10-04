@@ -12,8 +12,15 @@
 
     <script>
         $(() => {
+            $(".ditem").click((event) => {
+                event.stopPropagation();
+                event.stopImmediatePropagation();
+                alert($(this).attr("id"))
+            })
+
             $("#titleInputField").keyup(() => {
                 $("#existingThesisView").empty()
+                $("#itemDiv").empty()
                 $("#titleSubmitButton").removeAttr("disabled")
                 const text = $("#titleInputField").val()
                 
@@ -25,15 +32,48 @@
                                 $("#existingThesisView").empty()
                                 // $("#titleSubmitButton").prop("disabled", true)
                                 data.forEach( d => {
-                                    $("#existingThesisView").append("<div class='px-2 py-1 text-secondary border border-muted bg-white' style='border-radius: 2px'>"+d.title+"</div>")
+                                    $("#existingThesisView").append(`<div id='d`+d.title+`' class='ditem px-2 py-1 text-secondary border border-muted bg-white' style='border-radius: 2px; cursor: pointer' onclick="onclickitem('`+d.name+`', '`+d.rollNo+`', '`+d.year+`')">`+d.title+`</div>`)
                                 })
                             }
                         }
                     })
                 }
             })
+
+            let current_datetime = new Date()
+            let formatted_date =  current_datetime.getFullYear()+ "-" + appendLeadingZeroes(current_datetime.getMonth() + 1) + "-" + appendLeadingZeroes(current_datetime.getDate())
+
+            console.log(formatted_date)
+
+            $("#dateId").attr("min", "2019-10-04")
             
         })
+
+        function appendLeadingZeroes(n){
+            if(n <= 9){
+                return "0" + n;
+            }
+            return n
+        }
+
+        function onclickitem (name, rollNo, year) {
+            console.log(name, rollNo, year)
+            $("#existingThesisView").empty()
+            $("#itemDiv").append(`
+                <div class="p-2">
+                    <div class="p-2 d-flex flex-row font-weight-bold">
+                        <div class="text-muted" style="width: 200px;">Name: </div>`+name+`
+                    </div>
+                    <div class="p-2 d-flex flex-row font-weight-bold">
+                        <div class="text-muted" style="width: 200px;">Roll Number:</div> `+rollNo+`
+                    </div>
+                    <div class="p-2 d-flex flex-row font-weight-bold">
+                        <div class="text-muted" style="width: 200px;">Year:</div> `+year+`
+                    </div>
+                </div>
+            `)
+        }
+
     </script>
 
 </head>
@@ -96,6 +136,8 @@
                                     <div class="bg-white" id="existingThesisView"></div>
                                 </div>
                             </div>
+
+                            <div class="p-2" id="itemDiv"></div>
                             
                             <div class="py-4 d-flex justify-content-end">
                                 <button type="submit" id="titleSubmitButton" class="btn btn-primary px-3">Submit</button>
@@ -248,7 +290,7 @@
                             </div>
                             <div class="py-2">
                                 <div class="text-muted py-1">Deadline</div>
-                                <input type="date" name="deadline" class="form-control" value="{{ step.deadline if step }}" required />
+                                <input type="date" id="dateId" name="deadline" class="form-control" value="{{ step.deadline if step }}" required />
                                 <!-- disabled="{{ 'false' if not deadline else 'true' }}" -->
                                 <!-- <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ deadline }}</div> -->
                             </div>
@@ -393,7 +435,7 @@
 
                             <div class="py-2">
                                 <div class="text-muted py-1">Deadline</div>
-                                <input type="date" name="deadline" class="form-control" value="{{ step.deadline  if step }}" />
+                                <input type="date" id="dateId" name="deadline" class="form-control" value="{{ step.deadline  if step }}" />
                                 <!-- disabled="{{ 'false' if not deadline else 'true' }}" -->
                                 <!-- <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ deadline }}</div> -->
                             </div>
@@ -538,7 +580,7 @@
 
                             <div class="py-2">
                                 <div class="text-muted py-1">Deadline</div>
-                                <input type="date" name="deadline" class="form-control" value="{{ step.deadline  if step}}" />
+                                <input type="date" id="dateId" name="deadline" class="form-control" value="{{ step.deadline  if step}}" />
                                 <!-- disabled="{{ 'false' if not deadline else 'true' }}" -->
                                 <!-- <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ deadline }}</div> -->
                             </div>
@@ -683,7 +725,7 @@
 
                             <div class="py-2">
                                 <div class="text-muted py-1">Deadline</div>
-                                <input type="date" name="deadline" class="form-control" value="{{ step.deadline if step }}" required />
+                                <input type="date" id="dateId" name="deadline" class="form-control" value="{{ step.deadline if step }}" required />
                                 <!-- disabled="{{ 'false' if not deadline else 'true' }}" -->
                                 <!-- <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ deadline }}</div> -->
                             </div>
@@ -828,7 +870,7 @@
 
                             <div class="py-2">
                                 <div class="text-muted py-1">Deadline</div>
-                                <input type="date" name="deadline" class="form-control" value="{{step.deadline if step}}" />
+                                <input type="date" id="dateId" name="deadline" class="form-control" value="{{step.deadline if step}}" />
                                 <!-- disabled="{{ 'false' if not deadline else 'true' }}" -->
                                 <!-- <div class="text-secondary font-weight-bold p-2 px-3 border border-muted rounded">{{ deadline }}</div> -->
                             </div>

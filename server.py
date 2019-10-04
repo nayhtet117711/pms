@@ -5,7 +5,7 @@ from route import index, loginAdmin, loginUser, signupUser, homeAdmin, homeUser,
 app = Flask(__name__, static_folder='static', static_url_path='')
 
 app.config.setdefault('MYSQL_HOST', 'localhost')
-app.config.setdefault('MYSQL_USER', "user125")
+app.config.setdefault('MYSQL_USER', "root")
 app.config.setdefault('MYSQL_PASSWORD', "root")
 app.config.setdefault('MYSQL_DB', "pmsdb")
 app.config.setdefault('MYSQL_PORT', 3306)

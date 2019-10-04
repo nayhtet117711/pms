@@ -70,7 +70,7 @@ def signupUser() :
         if user:
             return render_template('signupUser.html', email=email, name=name, rollNumber=rollNo, errorText="Email already exists!")    
         else :
-            saveUser(email, name, rollNo, password)
+            saveUser(email, name, "6IST-"+rollNo, password)
             return redirect("/loginUser")
 
 def homeAdmin() :
@@ -246,7 +246,7 @@ def userClose() :
 #                 "year": t.year
 #             }
 #             thesisSearchResult.append(thesis)
-    
+        
 #     return jsonify(thesisSearchResult)
 
 def searchThesis(inputTitle):
