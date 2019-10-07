@@ -133,14 +133,13 @@ def homeUser() :
     loggedEmail = request.cookies.get("loggedEmail")
     notiList, newNotiNo = notiMiddleware(loggedEmail)
 
-    print("data: ", newNotiNo)
-
     if request.method == 'GET':
         thesis = fetchThesisWithEmail(loggedEmail)
         step = fetchStepByEmailStep(loggedEmail, STEP_TITLE)
         stepNo = fetchStepNoByEmailStep(loggedEmail)
-       
-        return render_template('homeUser.html', **request.args, thesis=thesis, step=step, stepNo=stepNo, newNotiNo=newNotiNo)
+        # print("sdddate::", request.args )
+        sdate = datetime.date.today()+datetime.timedelta(days=1)
+        return render_template('homeUser.html', **request.args, thesis=thesis, step=step, stepNo=stepNo, newNotiNo=newNotiNo, sdate=sdate)
     else :
         selectedTitle = request.form["title"]
         userRaw = fetchUserWithEmail(loggedEmail)
@@ -149,7 +148,7 @@ def homeUser() :
         rollNo = userRaw[2]
         saveThesis(selectedTitle, email, name, rollNo, "2018-2019", 0)
         thesis = fetchThesisWithEmail(loggedEmail)
-        return render_template('homeUser.html', **request.args, thesis = thesis, newNotiNo=newNotiNo )
+        return render_template('homeUser.html', **request.args, thesis = thesis, newNotiNo=newNotiNo, )
 
 def notiMiddleware(email):
     stepList = fetchStepNotExceed(email)
@@ -207,7 +206,9 @@ def selectTitle() :
     if len(taskRaw)>0 :
         tasks = commaSeparatedListString(taskRaw)
         saveStep(loggedEmail, STEP_TITLE, deadline, tasks, expectedOutput)
-    return redirect(url_for('homeUser', **request.args, selectedTitle="Project Management System"))
+
+    # sdate = datetime.date.today()+datetime.timedelta(days=1)
+    return redirect( url_for('homeUser', **request.args, selectedTitle="Project Management System",) )
 
 def userFirst() :
     loggedEmail = request.cookies.get("loggedEmail")
@@ -216,7 +217,11 @@ def userFirst() :
         thesis = fetchThesisWithEmail(loggedEmail)
         step = fetchStepByEmailStep(loggedEmail, STEP_FIRST)
         stepNo = fetchStepNoByEmailStep(loggedEmail)
-        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo)
+        
+        prevStep = fetchStepByEmailStep(loggedEmail, STEP_TITLE)
+        sdate = prevStep.deadline+datetime.timedelta(days=1) if prevStep else None
+
+        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo, sdate=sdate )
     else :
         deadline = request.form["deadline"]
         taskRaw = request.form.getlist("task")
@@ -233,7 +238,11 @@ def userSecond() :
         thesis = fetchThesisWithEmail(loggedEmail)
         step = fetchStepByEmailStep(loggedEmail, STEP_SECOND)
         stepNo = fetchStepNoByEmailStep(loggedEmail)
-        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo)
+
+        prevStep = fetchStepByEmailStep(loggedEmail, STEP_FIRST)
+        sdate = prevStep.deadline+datetime.timedelta(days=1) if prevStep else None
+        
+        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo, sdate=sdate)
     else :
         deadline = request.form["deadline"]
         taskRaw = request.form.getlist("task")
@@ -250,7 +259,11 @@ def userThird() :
         thesis = fetchThesisWithEmail(loggedEmail)
         step = fetchStepByEmailStep(loggedEmail, STEP_THIRD)
         stepNo = fetchStepNoByEmailStep(loggedEmail)
-        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo)
+
+        prevStep = fetchStepByEmailStep(loggedEmail, STEP_SECOND)
+        sdate = prevStep.deadline+datetime.timedelta(days=1) if prevStep else None
+        
+        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo, sdate=sdate )
     else :
         deadline = request.form["deadline"]
         taskRaw = request.form.getlist("task")
@@ -267,11 +280,15 @@ def userClose() :
         thesis = fetchThesisWithEmail(loggedEmail)
         step = fetchStepByEmailStep(loggedEmail, STEP_CLOSE)
         stepNo = fetchStepNoByEmailStep(loggedEmail)
-        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo)
+
+        prevStep = fetchStepByEmailStep(loggedEmail, STEP_THIRD)
+        sdate = prevStep.deadline+datetime.timedelta(days=1) if prevStep else None
+
+        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo, sdate=sdate )
     else :
         deadline = request.form["deadline"]
         taskRaw = request.form.getlist("task")
-        print("deadline: ", deadline)
+        # print("deadline: ", deadline)
 
         if len(taskRaw)>0 :
             tasks = commaSeparatedListString(taskRaw)
