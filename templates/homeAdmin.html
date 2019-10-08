@@ -209,10 +209,10 @@
                         {% if thesis.pending==1 %}
                         <div class="d-flex flex-row">
                             <div class="px-1">
-                                <a href="/approvedThesisByAdmin/{{thesis.email}}/1" class="btn btn-danger">Reject</a>
+                                <a href="/approvedThesisByAdmin/{{thesis.email}}/1?title={{thesis.title}}" class="btn btn-danger">Reject</a>
                             </div>
                             <div class="px-1">
-                                <a href="/approvedThesisByAdmin/{{thesis.email}}/0" class="btn btn-primary">Approve</a>
+                                <a href="/approvedThesisByAdmin/{{thesis.email}}/0?title={{thesis.title}}" class="btn btn-primary">Approve</a>
                             </div>
                         </div>
                         {% endif %}

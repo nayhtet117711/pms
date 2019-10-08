@@ -227,6 +227,8 @@ def selectTitle() :
 
 def userFirst() :
     loggedEmail = request.cookies.get("loggedEmail")
+    notiList, newNotiNo = notiMiddleware(loggedEmail)
+
     if request.method == 'GET':
         loggedEmail = request.cookies.get("loggedEmail")
         thesis = fetchThesisWithEmail(loggedEmail)
@@ -236,7 +238,7 @@ def userFirst() :
         prevStep = fetchStepByEmailStep(loggedEmail, STEP_TITLE)
         sdate = prevStep.deadline+datetime.timedelta(days=1) if prevStep else None
 
-        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo, sdate=sdate )
+        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo, sdate=sdate, newNotiNo=newNotiNo)
     else :
         deadline = request.form["deadline"]
         taskRaw = request.form.getlist("task")
@@ -248,6 +250,8 @@ def userFirst() :
 
 def userSecond() :
     loggedEmail = request.cookies.get("loggedEmail")
+    notiList, newNotiNo = notiMiddleware(loggedEmail)
+
     if request.method == 'GET':
         loggedEmail = request.cookies.get("loggedEmail")
         thesis = fetchThesisWithEmail(loggedEmail)
@@ -257,7 +261,7 @@ def userSecond() :
         prevStep = fetchStepByEmailStep(loggedEmail, STEP_FIRST)
         sdate = prevStep.deadline+datetime.timedelta(days=1) if prevStep else None
         
-        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo, sdate=sdate)
+        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo, sdate=sdate, newNotiNo=newNotiNo)
     else :
         deadline = request.form["deadline"]
         taskRaw = request.form.getlist("task")
@@ -269,6 +273,8 @@ def userSecond() :
 
 def userThird() :
     loggedEmail = request.cookies.get("loggedEmail")
+    notiList, newNotiNo = notiMiddleware(loggedEmail)
+
     if request.method == 'GET':
         loggedEmail = request.cookies.get("loggedEmail")
         thesis = fetchThesisWithEmail(loggedEmail)
@@ -278,7 +284,7 @@ def userThird() :
         prevStep = fetchStepByEmailStep(loggedEmail, STEP_SECOND)
         sdate = prevStep.deadline+datetime.timedelta(days=1) if prevStep else None
         
-        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo, sdate=sdate )
+        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo, sdate=sdate, newNotiNo=newNotiNo)
     else :
         deadline = request.form["deadline"]
         taskRaw = request.form.getlist("task")
@@ -290,6 +296,8 @@ def userThird() :
         
 def userClose() :
     loggedEmail = request.cookies.get("loggedEmail")
+    notiList, newNotiNo = notiMiddleware(loggedEmail)
+
     if request.method == 'GET':
         loggedEmail = request.cookies.get("loggedEmail")
         thesis = fetchThesisWithEmail(loggedEmail)
@@ -299,7 +307,7 @@ def userClose() :
         prevStep = fetchStepByEmailStep(loggedEmail, STEP_THIRD)
         sdate = prevStep.deadline+datetime.timedelta(days=1) if prevStep else None
 
-        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo, sdate=sdate )
+        return render_template('homeUser.html', **request.args, step=step, thesis=thesis, stepNo=stepNo, sdate=sdate, newNotiNo=newNotiNo )
     else :
         deadline = request.form["deadline"]
         taskRaw = request.form.getlist("task")
@@ -351,9 +359,11 @@ def searchThesis(inputTitle):
 
 def approvedThesisByAdmin(email, boolean) :
     updateThesisPending(email, boolean)
-    message = "Your title is approved by admin. Congratulation!"
-    if boolean ==False:
-        message = "Your title is rejected by admin. Sorry!"
+    title = request.args['title']
+    message = "Your title \""+title+"\" is approved by admin. Congratulation!"
+    if boolean ==str(1):
+        message = "Your title \""+title+"\" is rejected by admin. Sorry!"
+    print("message: ", message)
     saveNoti(message, datetime.datetime.now(), "NOTI", email, "MESSAGE")
     print("\n===>>> Notification saved in db ::: "+ "NOTI"+ " :: "+ "MESSAGE" +"\n\n")
     return redirect("/homeAdminTitles")
