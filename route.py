@@ -185,6 +185,21 @@ def notiUser():
     loggedName = request.cookies.get("loggedName")
     notiList, newNotiNo = notiMiddleware(loggedEmail)
     updateNotiRead(loggedEmail)
+
+    for n in notiList :
+        n.message = n.message.replace("approved", '''<span class='px-2 bg-success text-white rounded'>approved</span>''')
+        n.message = n.message.replace("approbed", '''<span class='px-2 bg-success text-white rounded'>approved</span>''')
+        n.message = n.message.replace("rejected", '''<span class='px-2 bg-danger text-white rounded'>rejected</span>''')
+        n.message = n.message.replace("First", '''<span class='px-2 bg-success text-white rounded'>First</span>''')
+        n.message = n.message.replace("Second", '''<span class='px-2 bg-success text-white rounded'>Second</span>''')
+        n.message = n.message.replace("Third", '''<span class='px-2 bg-success text-white rounded'>Third</span>''')
+        n.message = n.message.replace("Close", '''<span class='px-2 bg-success text-white rounded'>Close</span>''')
+
+        n.message = n.message.replace("7 days", '''<span class='px-2 bg-success text-white rounded'>7 days</span>''')
+        n.message = n.message.replace("3 days", '''<span class='px-2 bg-success text-white rounded'>3 days</span>''')
+        n.message = n.message.replace("1 days", '''<span class='px-2 bg-success text-white rounded'>1 days</span>''')
+
+    
     return render_template('notiUser.html', **request.args, notiList=notiList, newNotiNo=newNotiNo, loggedEmail=loggedEmail, loggedName=loggedName )
 
 
@@ -336,7 +351,7 @@ def searchThesis(inputTitle):
 
 def approvedThesisByAdmin(email, boolean) :
     updateThesisPending(email, boolean)
-    message = "Your title is approbed by admin. Congratulation!"
+    message = "Your title is approved by admin. Congratulation!"
     if boolean ==False:
         message = "Your title is rejected by admin. Sorry!"
     saveNoti(message, datetime.datetime.now(), "NOTI", email, "MESSAGE")
