@@ -32,7 +32,7 @@
                                 $("#existingThesisView").empty()
                                 // $("#titleSubmitButton").prop("disabled", true)
                                 data.forEach( d => {
-                                    $("#existingThesisView").append(`<div id='d`+d.title+`' class='ditem px-2 py-1 text-secondary border border-muted bg-white' style='border-radius: 2px; cursor: pointer' onclick="onclickitem('`+d.name+`', '`+d.rollNo+`', '`+d.year+`')">`+d.title+`</div>`)
+                                    $("#existingThesisView").append(`<div id='d`+d.title+`' class='ditem px-2 py-1 text-secondary border border-muted bg-white' style='border-radius: 2px; cursor: pointer' onclick="onclickitem('`+d.title+`','`+d.name+`', '`+d.rollNo+`', '`+d.year+`')">`+d.title+`</div>`)
                                 })
                             }
                         }
@@ -56,11 +56,14 @@
             return n
         }
 
-        function onclickitem (name, rollNo, year) {
-            console.log(name, rollNo, year)
+        function onclickitem (title, name, rollNo, year) {
+            console.log(title, name, rollNo, year)
             $("#existingThesisView").empty()
             $("#itemDiv").append(`
                 <div class="p-2">
+                    <div class="p-2 d-flex flex-row font-weight-bold">
+                        <div class="text-muted" style="width: 200px;">Title: </div>`+title+`
+                    </div>
                     <div class="p-2 d-flex flex-row font-weight-bold">
                         <div class="text-muted" style="width: 200px;">Name: </div>`+name+`
                     </div>
@@ -88,17 +91,29 @@
                 <div class="d-flex flex-column py-2 bg-white rounded border border-muted">
                     <div class="d-flex flex-row px-4 py-2 rounded justify-content-between align-items-center">
                         <div class="font-weight-bold">Project Management</div>
-                        <div class="d-flex flex-column">
-                            <div class="dropdown" style="cursor: pointer">
-                                <div class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                    <span class="px-2">{{request.cookies.get('loggedName')}}</span>
+                        <div class="d-flex flex-row">
+                            <a href="/noti" class="px-3 d-flex flex-column justify-content-center" style="text-decoration: none">
+                                <div class="text-center" >
+                                    {% if newNotiNo and newNotiNo>0 %} 
+                                        <span class="badge badge-danger p-1 tex-white" style="position: absolute; border-radius: 1000px;">{{ newNotiNo }}</span>
+                                    {% endif %}
+                                    <i class="fa fa-envelope" style="font-size: 30px; color: #787878"></i>
                                 </div>
-                                <div class="dropdown-menu py-1" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="/logout"><i class="fa fa-user-circle pr-2 text-secondary"></i>Sign out</a>
+                                <div class="text-muted">Notification</div>
+                            </a>
+                        
+                            <div class="d-flex flex-column px-2">
+                                <div class="dropdown" style="cursor: pointer">
+                                    <div class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <span class="px-2">{{request.cookies.get('loggedName')}}</span>
+                                    </div>
+                                    <div class="dropdown-menu py-1" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="/logout"><i class="fa fa-user-circle pr-2 text-secondary"></i>Sign out</a>
+                                    </div>
                                 </div>
+                                <div class="pt-2 text-muted">{{request.cookies.get('loggedEmail')}}</div>
                             </div>
-                            <div class="text-muted">{{request.cookies.get('loggedEmail')}}</div>
                         </div>
                     </div>
                     <div class="my-2 border border-muted border-top-0 border-left-0 border-right-0"></div>

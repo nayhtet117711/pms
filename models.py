@@ -23,3 +23,12 @@ class Step:
     deadline=""
     expectedOutput=""
     tasks = []
+
+class Noti:
+    id=""
+    message=""
+    datetime = ""
+    type = ""
+    email = ""
+    isread=0
+    step=""

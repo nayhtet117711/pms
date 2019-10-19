@@ -2,15 +2,21 @@ from flask import Flask, render_template, request, make_response, send_from_dire
 import os
 import random
 import datetime
-from db import test, fetchAdminWithEmailPassword, fetchAdminWithEmail, saveAdmin, fetchAllAdminExceptMe, fetchAllUser, fetchUserWithEmailPassword, fetchUserWithEmail, saveUser, fetchAllThesis, saveThesis, fetchThesisWithEmail, saveStep, fetchStepByEmailStep, fetchAllThesisNotDone, deleteAdmin, deleteUser, updateThesisPending, fetchStepNoByEmailStep
-from models import Admin
+from db import test, fetchAdminWithEmailPassword, fetchAdminWithEmail, saveAdmin, fetchAllAdminExceptMe, fetchAllUser, fetchUserWithEmailPassword, fetchUserWithEmail, saveUser, fetchAllThesis, saveThesis, fetchThesisWithEmail, saveStep, fetchStepByEmailStep, fetchAllThesisNotDone, deleteAdmin, deleteUser, updateThesisPending, fetchStepNoByEmailStep, fetchStepNotExceed, fetchNotiByEmail, fetchNotiNoByEmailType, saveNoti, updateNotiRead
+from models import Admin, Noti
 from brute import bruteForce
+
 
 STEP_TITLE = "TITLE"
 STEP_FIRST = "FIRST"
 STEP_SECOND = "SECOND"
 STEP_THIRD = "THIRD"
 STEP_CLOSE = "CLOSE"
+
+DAY_7 = "DAY_7"
+DAY_3 = "DAY_3"
+DAY_1 = "DAY_1"
+DAY_0 = "DAY_0"
 
 def index() :
     # test()
@@ -125,12 +131,16 @@ def addAdmin() :
 
 def homeUser() :
     loggedEmail = request.cookies.get("loggedEmail")
+    notiList, newNotiNo = notiMiddleware(loggedEmail)
+
+    print("data: ", newNotiNo)
+
     if request.method == 'GET':
         thesis = fetchThesisWithEmail(loggedEmail)
         step = fetchStepByEmailStep(loggedEmail, STEP_TITLE)
         stepNo = fetchStepNoByEmailStep(loggedEmail)
        
-        return render_template('homeUser.html', **request.args, thesis=thesis, step=step, stepNo=stepNo)
+        return render_template('homeUser.html', **request.args, thesis=thesis, step=step, stepNo=stepNo, newNotiNo=newNotiNo)
     else :
         selectedTitle = request.form["title"]
         userRaw = fetchUserWithEmail(loggedEmail)
@@ -139,7 +149,45 @@ def homeUser() :
         rollNo = userRaw[2]
         saveThesis(selectedTitle, email, name, rollNo, "2018-2019", 0)
         thesis = fetchThesisWithEmail(loggedEmail)
-        return render_template('homeUser.html', **request.args, thesis = thesis)
+        return render_template('homeUser.html', **request.args, thesis = thesis, newNotiNo=newNotiNo )
+
+def notiMiddleware(email):
+    stepList = fetchStepNotExceed(email)
+    tdt = datetime.date.today()
+    loggedName = request.cookies.get("loggedName")
+
+    for step in stepList:
+        dlt = step.deadline
+     
+        delta = dlt - tdt
+        dday = delta.days
+
+        dtypes = [ 7, 3, 1, 0 ]
+        types = [ DAY_7, DAY_3, DAY_1, DAY_0 ]
+
+        for i in range(0, len(types)):
+            dtype = dtypes[i]
+            type = types[i]
+            if dday==dtype:
+                notiNo = fetchNotiNoByEmailType(email, type, step.step)
+                if notiNo==0:
+                    message = "Hi "+ loggedName +", only " + str(dtype) + " days left to take " + step.step.capitalize() +" seminar."
+                    saveNoti(message, datetime.datetime.now(), type, email, step.step)
+                    print("\n===>>> Notification saved in db ::: "+ type+ " :: "+ step.step +"\n\n")
+    notiList = fetchNotiByEmail(email)
+    newNotiNo = 0
+    for noti in notiList:
+        if noti.isread==False:
+            newNotiNo += 1
+    return notiList, newNotiNo
+
+def notiUser():
+    loggedEmail = request.cookies.get("loggedEmail")
+    loggedName = request.cookies.get("loggedName")
+    notiList, newNotiNo = notiMiddleware(loggedEmail)
+    updateNotiRead(loggedEmail)
+    return render_template('notiUser.html', **request.args, notiList=notiList, newNotiNo=newNotiNo, loggedEmail=loggedEmail, loggedName=loggedName )
+
 
 def commaSeparatedListString(stringList):
     listString = ""
@@ -271,4 +319,9 @@ def searchThesis(inputTitle):
 
 def approvedThesisByAdmin(email, boolean) :
     updateThesisPending(email, boolean)
+    message = "Your title is approbed by admin. Congratulation!"
+    if boolean ==False:
+        message = "Your title is rejected by admin. Sorry!"
+    saveNoti(message, datetime.datetime.now(), "NOTI", email, "MESSAGE")
+    print("\n===>>> Notification saved in db ::: "+ "NOTI"+ " :: "+ "MESSAGE" +"\n\n")
     return redirect("/homeAdminTitles")

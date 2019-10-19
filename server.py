@@ -1,11 +1,11 @@
 from flask import Flask, render_template, redirect, request, send_from_directory
 import os
-from route import index, loginAdmin, loginUser, signupUser, homeAdmin, homeUser, logout, addAdmin, homeAdminUsers, homeAdminTitles, userFirst, userSecond, userThird, userClose, selectTitle, searchThesis, homeAdminDelete, homeAdminUsersDelete, homeAdminTitleView, approvedThesisByAdmin
+from route import index, loginAdmin, loginUser, signupUser, homeAdmin, homeUser, logout, addAdmin, homeAdminUsers, homeAdminTitles, userFirst, userSecond, userThird, userClose, selectTitle, searchThesis, homeAdminDelete, homeAdminUsersDelete, homeAdminTitleView, approvedThesisByAdmin, notiUser
 
 app = Flask(__name__, static_folder='static', static_url_path='')
 
 app.config.setdefault('MYSQL_HOST', 'localhost')
-app.config.setdefault('MYSQL_USER', "root")
+app.config.setdefault('MYSQL_USER', "user125")
 app.config.setdefault('MYSQL_PASSWORD', "root")
 app.config.setdefault('MYSQL_DB', "pmsdb")
 app.config.setdefault('MYSQL_PORT', 3306)
@@ -32,6 +32,8 @@ app.add_url_rule("/homeAdmin", "homeAdmin", homeAdmin, methods=["GET", "POST"])
 app.add_url_rule("/homeAdminDelete/<email>", "homeAdminDelete", homeAdminDelete, methods=["GET", "POST"])
 
 app.add_url_rule("/homeUser", "homeUser", homeUser, methods=["GET", "POST"])
+
+app.add_url_rule("/noti", "noti", notiUser, methods=["GET", "POST"])
 
 app.add_url_rule("/homeAdminUsers", "homeAdminUsers", homeAdminUsers, methods=["GET", "POST"])
 

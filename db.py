@@ -3,7 +3,7 @@ import os
 import random
 import datetime
 from flask_mysqldb import MySQL
-from models import Admin, User, Thesis, Step
+from models import Admin, User, Thesis, Step, Noti
 
 import numpy as np
 import pandas as pd
@@ -30,6 +30,21 @@ def test() :
 
     return
 
+
+def saveNoti(email, message, type, datetime):
+    cursor = mysql.connection.cursor()
+    cursor.execute("insert into noti(email, message, type, datetime) values(%s, %s, %s)", (email, message, type, datetime))
+    mysql.connection.commit()
+    cursor.close()
+    return
+
+def fetchNotiWithEmail(email):
+    cursor = mysql.connection.cursor()
+    cursor.execute("select id, email, message, type, datetime, isread from noti where email='%s'"%(email))
+    notiList = cursor.fetchall()
+    mysql.connection.commit()
+    cursor.close()
+    return notiList
 
 def fetchAdminWithEmailPassword(email, password):
     cursor = mysql.connection.cursor()
@@ -184,7 +199,6 @@ def updateThesisPending(email, boolean):
     else : 
         cursor.execute("update thesis set pending=0 where email='%s'"%(email))
         
-
     mysql.connection.commit()
     cursor.close()
     return
@@ -211,6 +225,72 @@ def fetchStepByEmailStep(email, step):
     mysql.connection.commit()
     cursor.close()
     return step
+
+def fetchStepNotExceed(email):
+    cursor = mysql.connection.cursor()
+    cursor.execute("select email,step, deadline, expectedOutput, tasks from step where deadline >= now() and email='%s'"%(email))
+    sr = cursor.fetchall()
+
+    stepList = []
+
+    for sr in sr:
+        if sr is not None :
+            step = Step()
+            step.email = sr[0]
+            step.step = sr[1]
+            step.deadline = sr[2]
+            step.expectedOutput = sr[3]
+            step.tasks = sr[4].split(",")
+            stepList.append(step)
+    
+    mysql.connection.commit()
+    cursor.close()
+        
+    return stepList
+
+def saveNoti(message, datetime, type, email, step):
+    cursor = mysql.connection.cursor()
+    cursor.execute("insert into noti(message, datetime, type, email, step) values(%s, %s, %s, %s, %s)", ( message, datetime, type, email, step ))
+    mysql.connection.commit()
+    cursor.close()
+    return 
+
+def updateNotiRead(email):
+    cursor = mysql.connection.cursor()
+    cursor.execute("update noti set isread=1 where email='%s'" %( email ))
+    mysql.connection.commit()
+    cursor.close()
+    return 
+
+def fetchNotiByEmail(email):
+    cursor = mysql.connection.cursor()
+    cursor.execute("select id, message, datetime, type, email, isread, step from noti where email='%s' order by datetime desc"%(email))
+    noti = cursor.fetchall()
+
+    notiList = []
+
+    for n in noti:
+        n1 = Noti()
+        n1.id = n[0]
+        n1.message = n[1]
+        n1.datetime = n[2]
+        n1.type = n[3]
+        n1.email = n[4]
+        n1.isread = n[5]
+        n1.step = n[6]
+        notiList.append(n1)
+    
+    mysql.connection.commit()
+    cursor.close()
+        
+    return notiList
+
+def fetchNotiNoByEmailType(email, type, step):
+    cursor = mysql.connection.cursor()
+    cursor.execute("select count(*) from noti where email='%s' and type='%s' and step='%s'"%(email, type, step))
+    stepNo = cursor.fetchone()
+
+    return stepNo[0]
 
 def fetchStepNoByEmailStep(email):
     cursor = mysql.connection.cursor()
